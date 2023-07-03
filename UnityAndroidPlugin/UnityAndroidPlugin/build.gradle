@@ -36,6 +36,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'com.google.android.gms:play-services-ads:22.1.0'
+    implementation 'com.unity3d.ads:unity-ads:4.7.0'
+    implementation 'com.google.ads.mediation:unity:4.7.0.0'
 
 
     testImplementation 'junit:junit:4.13.2'
