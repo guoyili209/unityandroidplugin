@@ -25,11 +25,12 @@ public class UnityBridge {
         PlayGamesSdk.initialize(UnityPlayer.currentActivity);
 
 
-        String country = Locale.getDefault().getCountry();
+        String country = Locale.getDefault().getCountry().toLowerCase();
+        String language = Locale.getDefault().getLanguage().toLowerCase();
         try {
             JSONObject json = new JSONObject();
             json.put("msgType", MsgType.ReturnLocation);
-            json.put("localtion", country);
+            json.put("localtion", language+"_"+country);
             Java2Unity(json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -73,13 +74,27 @@ public class UnityBridge {
             } else if (msgType == MsgType.HideBanner) {
                 GAdMgr.Instance().HideBanner();
             } else if (msgType == MsgType.PlayBanner) {
-                GAdMgr.Instance().ShowBanner();
+                String banner_pos = data.getString("banner_pos");
+                if(!banner_pos.isEmpty()&&banner_pos.equals("top"))
+                    GAdMgr.Instance().ShowBanner("top");
+                else
+                    GAdMgr.Instance().ShowBanner("bottom");
             } else if (msgType == MsgType.PlayInterstitial) {
                 GAdMgr.Instance().ShowInterstitial();
             } else if (msgType == MsgType.PlayReward) {
                 GAdMgr.Instance().ShowReward();
             }else if(msgType==MsgType.Purchase){
 
+            }else if(msgType==MsgType.RegisterNoti){
+                String zh_cn = data.getString("zh_cn");
+                String en = data.getString("en");
+                String country = Locale.getDefault().getCountry().toLowerCase();
+                String language = Locale.getDefault().getLanguage().toLowerCase();
+                if(country=="cn"&&language=="zh"){
+                    GameCenter.RegisterNoti(zh_cn);
+                }else{
+                    GameCenter.RegisterNoti(en);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

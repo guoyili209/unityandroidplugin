@@ -13,7 +13,7 @@ public class MsgType {
     public static int PlayBanner = 109;
     public static int InitGoogleAd = 110;
     public static int HideBanner = 111;
-
+    public static int RegisterNoti = 111;
 
     public static int PlayRewardEnd = 201;
     public static int PlayRewardFail = 202;

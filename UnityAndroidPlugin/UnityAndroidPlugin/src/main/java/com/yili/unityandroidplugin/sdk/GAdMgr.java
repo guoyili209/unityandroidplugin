@@ -45,6 +45,7 @@ public class GAdMgr {
     private String banner_id;
     private String inters_id;
     private String reward_id;
+    private LinearLayout banner_layout;
     private AdView adView;
     private InterstitialAd mInterstitialAd;
     private RewardedAd rewardedAd;
@@ -71,15 +72,15 @@ public class GAdMgr {
         if (banner_id.isEmpty() == false) {
             adView.setAdUnitId(banner_id);
 
-            LinearLayout layout = new LinearLayout(UnityPlayer.currentActivity.getApplicationContext());
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+            banner_layout = new LinearLayout(UnityPlayer.currentActivity.getApplicationContext());
+            banner_layout.setOrientation(LinearLayout.VERTICAL);
+            banner_layout.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    UnityPlayer.currentActivity.addContentView(layout, lp);
-                    layout.addView(adView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    UnityPlayer.currentActivity.addContentView(banner_layout, lp);
+                    banner_layout.addView(adView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 }
             });
             HideBanner();
@@ -96,6 +97,7 @@ public class GAdMgr {
                             adapterClass, status.getDescription(), status.getLatency()));
                 }
 
+//                GameCenter.RegisterNoti();
                 _LoadBanner();
                 _LoadInterstitial();
                 _LoadReward();
@@ -398,12 +400,16 @@ public class GAdMgr {
         });
     }
 
-    public void ShowBanner() {
+    public void ShowBanner(String pos) {
 //        AdRequest adRequest = new AdRequest.Builder().build();
 //        adView.loadAd(adRequest);
         UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if(pos.equals("top"))
+                    banner_layout.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+                else
+                    banner_layout.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
                 adView.resume();
                 adView.setVisibility(View.VISIBLE);
             }
