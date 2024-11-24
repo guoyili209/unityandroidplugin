@@ -8,6 +8,7 @@ import com.google.android.gms.games.PlayGamesSdk;
 import com.unity3d.player.UnityPlayer;
 import com.yili.unityandroidplugin.sdk.GAdMgr;
 import com.yili.unityandroidplugin.sdk.GameCenter;
+import com.yili.unityandroidplugin.sdk.IAP;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +24,6 @@ public class UnityBridge {
     }
     public static void InitSDK() {
         PlayGamesSdk.initialize(UnityPlayer.currentActivity);
-
 
         String country = Locale.getDefault().getCountry().toLowerCase();
         String language = Locale.getDefault().getLanguage().toLowerCase();
@@ -84,7 +84,8 @@ public class UnityBridge {
             } else if (msgType == MsgType.PlayReward) {
                 GAdMgr.Instance().ShowReward();
             }else if(msgType==MsgType.Purchase){
-
+                String product_id = data.getString("id");
+                IAP.Instance().ConnectionGooglePlay(product_id);
             }else if(msgType==MsgType.RegisterNoti){
                 String zh_cn = data.getString("zh_cn");
                 String en = data.getString("en");
